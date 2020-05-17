@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desafio-k8s-go
+spec:
+  selector:
+    matchLabels:
+      app: desafio-k8s-go
+
+  template:
+    metadata:
+      labels:
+        app: desafio-k8s-go
+    spec:
+      containers:
+        - name: codeeducation-k8s-go
+          image: lbatistela/codeeducation-k8s-go
+          ports:
+            - containerPort: 8000
