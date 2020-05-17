@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql-server
+    tier: db
+  # Para que o service seja acessado apenas pela resolução de nome: mysql-service
+  clusterIP: None

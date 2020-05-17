@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desafio-k8s-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: desafio-k8s-nginx
+
+  template:
+    metadata:
+      labels:
+        app: desafio-k8s-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.17-alpine
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d
+              name: nginx-conf
+              readOnly: true
+            - mountPath: /usr/share/nginx/html
+              name: nginx-index
+              readOnly: true
+
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf # Nome a ser dado para o arquivo de destino
+        - name: nginx-index
+          configMap:
+            name: nginx-index
+            items:
+              - key: index.html
+                path: index.html

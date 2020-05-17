@@ -1,0 +1,12 @@
+apiVersion: v1
+# Esse tipo de objeto (kind) solicita ao Kubernetes
+# a liberação de um espaço em disco para guardar esses dados
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
