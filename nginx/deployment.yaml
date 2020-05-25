@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: desafio-k8s-nginx
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: desafio-k8s-nginx
@@ -16,12 +16,17 @@ spec:
       containers:
         - name: nginx
           image: nginx:1.17-alpine
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
           ports:
             - containerPort: 80
+
+          resources:
+            requests: # mínimo de recursos necessários
+              cpu: "200m"
+              memory: "100Mi"
+            limits: # máximo de recursos
+              cpu: "250m" # no caso do limite de CPU, o POD não consegue usar mais que isso
+              # se tiver um limite de memória e ele for atingido, o POD será morto
+
           volumeMounts:
             - mountPath: /etc/nginx/conf.d
               name: nginx-conf
